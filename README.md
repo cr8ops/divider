@@ -9,4 +9,4 @@
 
 ## Execution
 1. Update [data/config.txt](data/config.txt) file.
-2. In the repo root dir execute the `mise cli` command.
+2. In the repo root dir execute `mise cli` command.
