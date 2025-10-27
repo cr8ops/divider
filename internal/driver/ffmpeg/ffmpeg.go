@@ -64,7 +64,7 @@ func (ff *FFmpeg) DivideVideo(l *slog.Logger, videoFilePath, dstFilePath, start,
 		"-i", videoFilePath,
 		"-ss", start,
 		"-to", end,
-		"-c", "copy",
+		"-copyts",
 		dstFilePath,
 	)
 
@@ -74,3 +74,21 @@ func (ff *FFmpeg) DivideVideo(l *slog.Logger, videoFilePath, dstFilePath, start,
 
 	return nil
 }
+
+/*
+func (ff *FFmpeg) DivideVideo(l *slog.Logger, videoFilePath, dstFilePath, start, end string) error {
+	args := DefaultArgs
+	// ffmpeg -i input.mp4 -ss 00:00:00 -to 00:10:00 -c copy output_part1.mp4
+	args = append(args,
+		"-i", videoFilePath,
+		"-ss", start,
+		"-t", end,
+		dstFilePath,
+	)
+
+	if err := run(l, exec.Command(BinaryName, args...)); err != nil { //nolint:gosec
+		return fmt.Errorf("executting a command: %w", err)
+	}
+
+	return nil
+}*/
