@@ -1,3 +1,6 @@
+/*
+Package config provides utilities for managing configuration files.
+*/
 package config
 
 import (
@@ -8,24 +11,37 @@ import (
 	"strings"
 )
 
+const (
+	chapterPartsDelimiter = "-"
+	chapterPartsNumber    = 2
+)
+
+// Config represents the configuration for video division.
 type Config struct {
 	VideoPath string
 	Chapters  []Chapter
 }
 
+// Chapter represents a video chapter with start and end times.
 type Chapter struct {
 	Start string
 	End   string
 }
 
-func Read(configPath string) (*Config, error) {
+// Read reads the configuration from the specified file path.
+func Read(configPath string) (cfg *Config, err error) {
 	file, err := os.Open(filepath.Clean(configPath))
 	if err != nil {
 		return nil, fmt.Errorf("opening file: %w", err)
 	}
-	defer file.Close()
+	defer func() {
+		err = file.Close()
+		if err != nil {
+			err = fmt.Errorf("closing file: %w", err)
+		}
+	}()
 
-	config := &Config{
+	cfg = &Config{
 		Chapters: []Chapter{},
 	}
 
@@ -40,19 +56,19 @@ func Read(configPath string) (*Config, error) {
 
 		// Parse video path line
 		if strings.HasPrefix(line, "video:") {
-			config.VideoPath = strings.TrimSpace(strings.TrimPrefix(line, "video:"))
+			cfg.VideoPath = strings.TrimSpace(strings.TrimPrefix(line, "video:"))
 			continue
 		}
 
 		// Parse chapter lines (assuming format: "start-end")
-		if strings.Contains(line, "-") {
-			parts := strings.Split(line, "-")
-			if len(parts) == 2 {
+		if strings.Contains(line, chapterPartsDelimiter) {
+			parts := strings.Split(line, chapterPartsDelimiter)
+			if len(parts) == chapterPartsNumber {
 				chapter := Chapter{
 					Start: strings.TrimSpace(parts[0]),
 					End:   strings.TrimSpace(parts[1]),
 				}
-				config.Chapters = append(config.Chapters, chapter)
+				cfg.Chapters = append(cfg.Chapters, chapter)
 			}
 		}
 	}
@@ -61,5 +77,5 @@ func Read(configPath string) (*Config, error) {
 		return nil, fmt.Errorf("scanning file: %w", err)
 	}
 
-	return config, nil
+	return cfg, nil
 }

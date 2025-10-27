@@ -1,0 +1,31 @@
+version: "2"
+linters:
+  enable:
+  - gocheckcompilerdirectives
+  - importas
+  - revive
+  - sloglint
+  - decorder
+  - gocritic
+  - gosec
+  - intrange
+  - ireturn
+  - makezero
+  - mnd
+  - paralleltest
+  - perfsprint
+  - prealloc
+  - predeclared
+  - recvcheck
+  - revive
+  - usestdlibvars
+  - wrapcheck
+issues:
+  max-same-issues: 15
+formatters:
+  enable:
+  - goimports
+  settings:
+    goimports:
+      local-prefixes:
+      - github.com/cr8ops/editor

@@ -1,0 +1,18 @@
+[tools]
+go = "1.25"
+golangci-lint = "2.5.0"
+
+[tasks.tidy]
+run = "go mod tidy"
+
+[tasks.test]
+run = "go test ./..."
+
+[tasks.lint]
+run = "golangci-lint run --fix"
+
+[tasks.check]
+depends = ["tidy", "test", "lint"]
+
+[tasks.cli]
+run = "go run ./cmd/main.go"
