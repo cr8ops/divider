@@ -1,4 +1,4 @@
-# Divider for MacOS
+# Video divider for MacOS
 
 ## Installation
 1. Install ffmpeg: `brew install ffmpeg`
@@ -8,4 +8,5 @@
     - `mise install`
 
 ## Execution
-In the repo root dir execute the `mise cli` command.
+1. Update [config.go](internal/config/config.go) file.
+2. In the repo root dir execute the `mise cli` command.
