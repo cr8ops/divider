@@ -18,8 +18,9 @@ const (
 
 // Config represents the configuration for video division.
 type Config struct {
-	VideoPath string
-	Chapters  []Chapter
+	VideoPath  string
+	OutputPath string
+	Chapters   []Chapter
 }
 
 // Chapter represents a video chapter with start and end times.
@@ -57,6 +58,13 @@ func Read(configPath string) (cfg *Config, err error) {
 		// Parse video path line
 		if strings.HasPrefix(line, "video:") {
 			cfg.VideoPath = strings.TrimSpace(strings.TrimPrefix(line, "video:"))
+			continue
+		}
+
+		// Parse output path line
+		if strings.HasPrefix(line, "output:") {
+			cfg.OutputPath = strings.TrimSpace(strings.TrimPrefix(line, "output:"))
+			cfg.OutputPath = strings.TrimSpace(strings.TrimSuffix(cfg.OutputPath, "/"))
 			continue
 		}
 

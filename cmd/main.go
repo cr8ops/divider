@@ -31,7 +31,7 @@ func run(l *slog.Logger) error {
 	mixer := ffmpeg.NewFFmpeg()
 	for i, chapter := range cfg.Chapters {
 		l.Info("chapter", slog.Int("number", i+1), slog.String("start", chapter.Start), slog.String("end", chapter.End))
-		if err := mixer.DivideVideo(l, cfg.VideoPath, fmt.Sprintf("./data/output/%d.mp4", i+1), chapter.Start, chapter.End); err != nil {
+		if err := mixer.DivideVideo(l, cfg.VideoPath, fmt.Sprintf("%s/%d.mp4", cfg.OutputPath, i+1), chapter.Start, chapter.End); err != nil {
 			l.Error("dividing video", slog.Any("error", err))
 		}
 	}
