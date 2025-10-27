@@ -8,5 +8,5 @@
     - `mise install`
 
 ## Execution
-1. Update [config.go](internal/config/config.go) file.
+1. Update [data/config.txt](data/config.txt) file.
 2. In the repo root dir execute the `mise cli` command.
